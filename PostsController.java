@@ -33,4 +33,30 @@ public class PostsController {
         return "redirect:/posts";
     }
 
+    @GetMapping("/show")
+    public String viewPost(Model model){
+        List<Post> posts = DaoFactory.getPostsDao().all();
+        model.addAttribute("posts", posts);
+        return "posts/show";
+    }
+
+
+
+//    @GetMapping("/posts/{id}/edit")
+//    public String showEditForm
+
+
+//    @PostMapping ("/posts/{id}/edit")
+//    public String create(@ModelAttribute Post post){
+//        DaoFactory.getPostsDao().save(post);
+//        return "redirect:/posts";
+//    }
+
+
+//    @PostMapping ("/posts/{id}/delete")
+//    public String create(@ModelAttribute Post post){
+//        DaoFactory.getPostsDao().save(post);
+//        return "redirect:/posts";
+//    }
+
 }

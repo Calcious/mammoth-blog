@@ -1,8 +1,14 @@
 package com.codeup;
 
+
+
+import javax.persistence.*;
+
 /**
  * Created by Calcious on 1/5/17.
  */
+@Entity
+@Table(name="posts")
 public class Post {
     public int getId() {
         return id;
@@ -28,8 +34,15 @@ public class Post {
         this.description = description;
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(nullable = false, length = 100)
     private String title;
+
+
+    @Column(nullable = false, length = 500)
     private String description;
 
 
