@@ -51,44 +51,40 @@ public class PostsController {
         return "redirect:/posts";
     }
 
-    @GetMapping("/show")
-    public String viewPost(Model model){
-        model.addAttribute("posts", DaoFactory.getPostsDao().all());
+    @GetMapping("/posts/{id}")
+    public String viewPost(@PathVariable int id, Model model){
+        Post post = DaoFactory.getPostsDao().fetchPost(id);
+        model.addAttribute("post", post);
         return "posts/show";
     }
 
 
 
-//    @GetMapping("/posts/{id}/edit")
-//    public String showEditForm(Model model){
-//        //TODO Use the passed id to find the record in the database
-//        Post post = DaoFactory.getPostsDao().find(id);
-//        //TODO Add the model
-//        model.addAttribute("post", post);
-//        return "posts/edit";
-//    }
-//
-//
-//    @PostMapping ("/posts/{id}/edit")
-//    public String update(@ModelAttribute Post editedPost, @PathVariable long id){
-//
-//        //TODO Find the existing record in the database with the passed id
-//        Post existingPost = DaoFactory.getPostsDao().find(id);
-//        //TODO Update the relevant fields
-//        String newTitle = editedPost.getTitle();
-//        String newDescription = editedPost.getDescription();
-//        existingPost.setTitle(newTitle);
-//        existingPost.setDescription(newDescription);
-//        //TODO Update the existing post
-//        DaoFactory.getPostsDao().update(existingPost);
-//        return "redirect:/posts/" + existingPost.getId();
-//    }
+    @GetMapping("/posts/{id}/edit")
+    public String showEditForm(@PathVariable int id, Model model){
+        Post post = DaoFactory.getPostsDao().fetchPost(id);
+        model.addAttribute("post", post);
+        return "posts/edit";
+    }
 
 
-//    @PostMapping ("/posts/{id}/delete")
-//    public String create(@ModelAttribute Post post){
-//        DaoFactory.getPostsDao().save(post);
-//        return "redirect:/posts";
-//    }
+    @PostMapping ("/posts/{id}/edit")
+    public String update(@ModelAttribute Post editedPost, @PathVariable int id){
+
+        Post existingPost = DaoFactory.getPostsDao().fetchPost(id);
+        String newTitle = editedPost.getTitle();
+        String newDescription = editedPost.getDescription();
+        existingPost.setTitle(newTitle);
+        existingPost.setDescription(newDescription);
+        DaoFactory.getPostsDao().update(existingPost);
+        return "redirect:/posts/" + existingPost.getId();
+    }
+
+
+    @GetMapping ("/posts/{id}/delete")
+    public String delete(@PathVariable int id){
+        DaoFactory.getPostsDao().deletePost(id);
+        return "redirect:/posts";
+    }
 
 }
