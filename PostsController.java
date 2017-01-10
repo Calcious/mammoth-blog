@@ -2,7 +2,10 @@ package com.codeup;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -46,8 +49,14 @@ public class PostsController {
     }
 
     @PostMapping ("/posts/create")
-    public String create(@ModelAttribute Post post){
+    public String create(@Valid Post post, Errors validation, Model model){
         DaoFactory.getPostsDao().save(post);
+
+        if (validation.hasErrors()) {
+            model.addAttribute("errors", validation);
+            model.addAttribute("post", post);
+            return "posts/create";
+        }
         return "redirect:/posts";
     }
 

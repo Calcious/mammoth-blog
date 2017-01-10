@@ -30,6 +30,14 @@ public class User {
         this.userid = userid;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +45,9 @@ public class User {
 
     @Column(nullable = false, length = 100)
     private String username;
+
+    @Column(nullable = false, length = 500)
+    private String email;
 
     @Column(nullable = false, length = 500)
     private String password;
