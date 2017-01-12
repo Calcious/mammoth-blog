@@ -1,11 +1,25 @@
 package com.codeup;
 import javax.persistence.*;
+import java.util.List;
+
 /**
  * Created by Calcious on 1/9/17.
  */
 @Entity
 @Table(name="users")
 public class User {
+
+    public User(User user) {
+        id = user.id;
+        email = user.email;
+        username = user.username;
+        password = user.password;
+    }
+
+    public User(){
+
+    }
+
     public String getUsername() {
         return username;
     }
@@ -19,15 +33,16 @@ public class User {
     }
 
     public void setPassword(String password) {
+
         this.password = password;
     }
 
-    public int getUserid() {
-        return userid;
+    public int getid() {
+        return id;
     }
 
-    public void setUserid(int userid) {
-        this.userid = userid;
+    public void setid(int userid) {
+        this.id = userid;
     }
 
     public String getEmail() {
@@ -38,15 +53,33 @@ public class User {
         this.email = email;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userid;
+    private int id;
 
-    @Column(nullable = false, length = 100)
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts;
+
+    @Column(nullable = false, length = 100, unique = true)
     private String username;
 
-    @Column(nullable = false, length = 500)
+    @Column(nullable = false, length = 500, unique = true)
     private String email;
 
     @Column(nullable = false, length = 500)

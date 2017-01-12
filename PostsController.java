@@ -13,7 +13,7 @@ import java.util.List;
  */
 
 @Controller
-public class PostsController {
+public class PostsController extends BaseController{
 
     @GetMapping("/posts")
     public String index(Model model){
@@ -22,18 +22,10 @@ public class PostsController {
         return "posts/index";
     }
 
-    @GetMapping("/register")
-    public String register(){
-        return "posts/register";
-    }
-
-    @GetMapping("/login")
-    public String login(){
-        return "posts/login";
-    }
 
     @GetMapping("/profile")
-    public String profile(){
+    public String profile(Model m){
+        m.addAttribute("user", loggedInUser());
         return "posts/profile";
     }
 
@@ -50,13 +42,13 @@ public class PostsController {
 
     @PostMapping ("/posts/create")
     public String create(@Valid Post post, Errors validation, Model model){
-        DaoFactory.getPostsDao().save(post);
 
         if (validation.hasErrors()) {
             model.addAttribute("errors", validation);
             model.addAttribute("post", post);
             return "posts/create";
         }
+        DaoFactory.getPostsDao().save(post);
         return "redirect:/posts";
     }
 
